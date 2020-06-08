@@ -41,8 +41,8 @@ Commands supported are:
 3. **___BROADCAST_TO_TOPIC** : Send a message to all Clients with a subscription on a Topic. *
 4. **___DISCONNECT**         : Disconnect from the Chat
 
-* About **___BROADCAST_TO_TOPIC** command:
-The message's format to use this Command is: COMMAND|TOPIC|MESSAGE
+About **___BROADCAST_TO_TOPIC** command:
+The message's format to use with this Command is: COMMAND|TOPIC|MESSAGE (Es.: ___BROADCAST_TO_TOPIC|HOBBY|Do you like to play football?)
 To Send a message on the Default Channel, you can simply write the MESSAGE,
 without specifying the ___BROADCAST_TO_TOPIC command and it's format.
 
