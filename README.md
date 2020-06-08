@@ -46,7 +46,7 @@ The message's format to use with this Command is: COMMAND|TOPIC|MESSAGE (Es.: __
 To Send a message on the Default Channel, you can simply write the MESSAGE,
 without specifying the ___BROADCAST_TO_TOPIC command and it's format.
 
-![picture alt](https://imgur.com/Fvx1f99 "Chat Preview")
+![picture alt](https://drive.google.com/file/d/18Mz8xgalhG2SRHmB3dWzaT7Kf5LaES_q/view?usp=sharing "Chat Preview")
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
