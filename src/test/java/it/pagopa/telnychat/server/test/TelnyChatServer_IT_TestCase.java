@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.containsString;
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Integration Test for Telny Chat Server")
-public class TelnyChatServer_IT
+public class TelnyChatServer_IT_TestCase
 {
     private final static String LOCALHOST = "127.0.0.1";
     private final static Integer PORT = 10000;
