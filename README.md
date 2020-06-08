@@ -4,7 +4,7 @@ A simple TCP Chat Server written in JAVA.
 
 ## Build Image
 
-Use Docker to build a Container image [Docker](https://www.docker.com) of TelnyChat.
+Use [Docker](https://www.docker.com) to build a Container image of TelnyChat.
 Build process will do:
 1. Download and install OpenJDK : The JAVA environment to execute the Chat.
 2. Download and install Maven   : To compile and build source code.
@@ -17,7 +17,7 @@ docker build -f Dockerfile -t telnychat:1.0.0 .
 ```
 ## Run Container
 
-Use Docker to run builded image as Container [Docker](https://www.docker.com)
+Use [Docker](https://www.docker.com) to run builded image as Container
 Run process will start new Container, binding 10000 host port to 10000 Container port.
 
 ```bash
@@ -45,6 +45,8 @@ About **___BROADCAST_TO_TOPIC** command:
 The message's format to use with this Command is: COMMAND|TOPIC|MESSAGE (Es.: ___BROADCAST_TO_TOPIC|HOBBY|Do you like to play football?)
 To Send a message on the Default Channel, you can simply write the MESSAGE,
 without specifying the ___BROADCAST_TO_TOPIC command and it's format.
+
+![picture alt](https://imgur.com/Fvx1f99 "Chat Preview")
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
