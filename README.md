@@ -36,13 +36,15 @@ can share their messages. So, your messages will be sended to all connected clie
 
 You can also submit to the server some simple commands.
 Commands supported are:
-1. ___GET_CLIENTS        : Get a list of all connected clients.
-2. ___GET_TOPICS         : Get a list of all active Channels (Topics).
-3. ___BROADCAST_TO_TOPIC : Send a message to all Clients with a subscription on a Topic.
-                           P.S.: The message's format to use this Command is: COMMAND|TOPIC|MESSAGE
-                                 To Send a message on the Default Channel, you can simply write the MESSAGE,
-                                 without specifying the ___BROADCAST_TO_TOPIC command and it's format.
-4. ___DISCONNECT         : Disconnect from the Chat
+1. **___GET_CLIENTS**        : Get a list of all connected clients.
+2. **___GET_TOPICS**         : Get a list of all active Channels (Topics).
+3. **___BROADCAST_TO_TOPIC** : Send a message to all Clients with a subscription on a Topic. *
+4. **___DISCONNECT**         : Disconnect from the Chat
+
+* About **___BROADCAST_TO_TOPIC** command:
+The message's format to use this Command is: COMMAND|TOPIC|MESSAGE
+To Send a message on the Default Channel, you can simply write the MESSAGE,
+without specifying the ___BROADCAST_TO_TOPIC command and it's format.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
