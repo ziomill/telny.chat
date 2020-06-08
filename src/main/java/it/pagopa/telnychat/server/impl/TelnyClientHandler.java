@@ -36,7 +36,6 @@ public class TelnyClientHandler extends ClientHandler
     private Socket clientSocket;    // Communication Channel Client - Server
     private BufferedReader reader;  // Server read : From the Client Output Channel
     private PrintWriter writer;     // Server write: To the Client Input Channel
-    private boolean isRunning = true; // Flag to control this Thread Life.
 
     public TelnyClientHandler(Socket clientSocket,
                               TelnyChatServer server)
@@ -80,8 +79,6 @@ public class TelnyClientHandler extends ClientHandler
         }
     }
 
-
-
     @Override
     public void login() throws IOException
     {
@@ -116,10 +113,10 @@ public class TelnyClientHandler extends ClientHandler
 
         // Server Welcome message
         writer.println("[********** Server Welcome Messagge **********]");
-        writer.println("->\tHello: '" + nickname + "'!");
-        writer.println("->\tActive Topics     : " + activeTopicsReduced);
-        writer.println("->\tConnected Clients : " + connectedClientsReduced);
-        writer.println("->\tLet's start chatting...");
+        writer.println("->Hello: '" + nickname + "'!");
+        writer.println("->Active Topics     : " + activeTopicsReduced);
+        writer.println("->Connected Clients : " + connectedClientsReduced);
+        writer.println("->Let's start chatting...");
         writer.println("[*********************************************]");
     }
 
@@ -136,7 +133,7 @@ public class TelnyClientHandler extends ClientHandler
 
         // Wait for this client messages
         String inputLine;
-        while (isRunning && (inputLine = reader.readLine()) != null)
+        while ((inputLine = reader.readLine()) != null)
         {
             Command command = Command.getENUM(inputLine).isPresent() ? Command.getENUM(inputLine).get() : Command.BROADCAST_TO_TOPIC;
             ChatStrategy strategy = new ChatStrategy();
@@ -144,6 +141,7 @@ public class TelnyClientHandler extends ClientHandler
         }
         System.out.println("Stopped Communication Handler beetween Server and Client: " + nickname + "\n" +
                            "Thread with ID: " + this.getId() + " was killed.");
+//        server.removeClient(nickname);
     }
 
     @Override
@@ -186,19 +184,12 @@ public class TelnyClientHandler extends ClientHandler
             server.removeClient(nickname);
             // Close the Socket
             clientSocket.close();
-            // Stop this thread
-            isRunning = false;
         }
         catch(Exception ex)
         {
             System.err.println("Something goes wrong disconnecting Client: " + nickname + "\n" +
                                "\tError message: " + ex.getMessage());
         }
-    }
-
-    @Override
-    public boolean isRunning() {
-        return isRunning;
     }
 
     @Override

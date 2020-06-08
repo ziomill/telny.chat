@@ -26,6 +26,10 @@ public class TelnyChatServer implements ChatServer
 
     public static final String BROADCAST_TOPIC = "BROADCAST_TOPIC";
 
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
     /**
      * Start Server on specified specific port.
      * @param port The port where Server listens.
@@ -66,6 +70,10 @@ public class TelnyChatServer implements ChatServer
                                "\tError message: " + ex.getMessage());
 
         }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
 
@@ -78,25 +86,12 @@ public class TelnyChatServer implements ChatServer
         try
         {
             // Disconnect clients
-            int connectedClients = clients.size();
             Map<String,ClientHandler> copy = Map.copyOf(clients);
             copy.values().stream().forEach(clientHandler ->
             {
                 clientHandler.disconnect();
             });
 
-            // Waiting for Handlers thread for disconnection
-            int allHandlersStopped = 0;
-            while (allHandlersStopped != connectedClients)
-            {
-                for(ClientHandler handler : copy.values())
-                {
-                    if(!handler.isRunning())
-                    {
-                        allHandlersStopped ++;
-                    }
-                }
-            }
             // Close Server Socket
             serverSocket.close();
         }

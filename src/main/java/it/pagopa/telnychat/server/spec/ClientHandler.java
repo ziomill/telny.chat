@@ -14,6 +14,5 @@ public abstract class ClientHandler extends Thread implements PropertyChangeList
                                                 String message);
     public abstract String whois();
     public abstract void disconnect();
-    public abstract boolean isRunning();
     public abstract ChatServer getServer();
 }

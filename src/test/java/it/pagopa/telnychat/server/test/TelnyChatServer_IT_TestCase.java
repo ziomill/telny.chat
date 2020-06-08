@@ -25,12 +25,13 @@ public class TelnyChatServer_IT_TestCase
     private final static String LOCALHOST = "127.0.0.1";
     private final static Integer PORT = 10000;
 
-    private ChatServer server;
+    private static ChatServer server;
 
-    @BeforeEach
-    public void init()
+    @BeforeAll
+    public static void init()
     {
-        new Thread(() ->
+        System.out.println("@@@@@@@@@@@@@@ START INIT");
+        Thread serverThread = new Thread(() ->
         {
             try
             {
@@ -40,28 +41,20 @@ public class TelnyChatServer_IT_TestCase
             }
             catch (Exception ex)
             {
-                Assertions.fail("Can't start server: " + ex.getMessage());
+                Assertions.fail("Can't start Thread server: " + ex.getMessage());
             }
-        }).start();
+        });
+        serverThread.start();
 
-        // Wait Server Starting
-        boolean isListening = false;
-        while (!isListening)
+        // Wait for Server starting
+        while (!serverThread.getState().equals(Thread.State.RUNNABLE))
         {
-            try
-            {
-                Socket clientSocket = new Socket(LOCALHOST, PORT);
-                isListening = clientSocket.isConnected();
-            }
-            catch (Exception ex)
-            {
-                Assertions.fail(ex.getMessage());
-            }
+            System.out.println("Server initializing...");
         }
     }
 
-    @AfterEach
-    public void teardown()
+    @AfterAll
+    public static void teardown()
     {
         server.stop();
     }
@@ -76,9 +69,13 @@ public class TelnyChatServer_IT_TestCase
             TelnyChatClient client = new TelnyChatClient(socket);
             String loginMessage = client.getMessage();
             assertThat(loginMessage, containsString("Hello, nice to meet you! What's your (nick)name) ? :-)"));
+
+            socket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
@@ -89,15 +86,19 @@ public class TelnyChatServer_IT_TestCase
     {
         try
         {
-            Socket socket = new Socket(LOCALHOST, PORT);
-            TelnyChatClient client = new TelnyChatClient(socket);
+            Socket jupiterSocket = new Socket(LOCALHOST, PORT);
+            TelnyChatClient client = new TelnyChatClient(jupiterSocket);
             client.getMessage(); // login message
-            client.sendMessage("mill");
+            client.sendMessage("Jupiter");
             String welcomeMessage = client.getMessage();
             assertThat(welcomeMessage, containsString("[********** Server Welcome Messagge **********]"));
+
+            jupiterSocket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
@@ -146,9 +147,15 @@ public class TelnyChatServer_IT_TestCase
             // Client Jupiter receive Moon's message
             String toMoonMessage = clientMoon.getMessage();
             assertThat(toMoonMessage, containsString(broadcastedMessage));
+
+            jupiterSocket.close();
+            plutoSocket.close();
+            moonSocket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
@@ -169,9 +176,13 @@ public class TelnyChatServer_IT_TestCase
             clientJupiter.sendMessage(Command.GET_TOPICS.getValue());
             String getTopicsMessage = clientJupiter.getMessage();
             Assertions.assertEquals("Active Topics     : BROADCAST_TOPIC",getTopicsMessage);
+
+            jupiterSocket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
@@ -200,9 +211,14 @@ public class TelnyChatServer_IT_TestCase
             clientPluto.sendMessage(Command.GET_CLIENTS.getValue());
             String getClientsMessage = clientPluto.getMessage();
             Assertions.assertEquals("Connected Clients : Jupiter,Pluto",getClientsMessage);
+
+            jupiterSocket.close();
+            plutoSocket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
@@ -223,10 +239,14 @@ public class TelnyChatServer_IT_TestCase
             // Send ___GET_TOPICS command
             clientJupiter.sendMessage(Command.DISCONNECT.getValue());
             Thread.sleep(2000);
+
             Assertions.assertEquals(0,server.getClients().size());
+            jupiterSocket.close();
+            server.getClients().clear();
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
             Assertions.fail(ex.getMessage());
         }
     }
