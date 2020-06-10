@@ -123,14 +123,6 @@ public class TelnyClientHandler extends ClientHandler
     @Override
     public void startChatSession() throws IOException
     {
-        // Get list of Connected clients
-        Set<String> connectedClients = server.getClients();
-        String connectedClientsReduced = connectedClients.stream().map(Object::toString).collect(Collectors.joining(","));
-
-        // Get list of Active Topics
-        Set<String> activeTopics = server.getTopics();
-        String activeTopicsReduced = activeTopics.stream().map(Object::toString).collect(Collectors.joining(","));
-
         // Wait for this client messages
         String inputLine;
         while ((inputLine = reader.readLine()) != null)
@@ -141,7 +133,6 @@ public class TelnyClientHandler extends ClientHandler
         }
         System.out.println("Stopped Communication Handler beetween Server and Client: " + nickname + "\n" +
                            "Thread with ID: " + this.getId() + " was killed.");
-//        server.removeClient(nickname);
     }
 
     @Override
